@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: eventhub
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-divya75}
+    volumes:
+      - eventhub_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d eventhub"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+  app:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD:-divya75}@db:5432/eventhub
+      PORT: 3000
+      UPLOAD_DIR: /app/public/uploads
+    ports:
+      - "3001:3000"
+    volumes:
+      - eventhub_uploads:/app/public/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  eventhub_pgdata:
+  eventhub_uploads:

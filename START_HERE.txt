@@ -1,0 +1,35 @@
+EVENTHUB — START HERE
+
+LOCAL RUN (Windows + Docker Desktop)
+1. Extract this ZIP.
+2. Open the EventHub_Fresh folder in VS Code. It must be the folder containing docker-compose.yml and package.json.
+3. Copy .env.example and rename the copy to .env (same folder as docker-compose.yml).
+4. Edit .env. Set a strong DB_PASSWORD and use the exact same password in DATABASE_URL after postgres: and before @db. Set a long random JWT_SECRET and a new ADMIN_PASSWORD.
+5. Start Docker Desktop.
+6. In VS Code Terminal (at the EventHub_Fresh project root), run: docker compose up -d --build
+7. The Dockerfile initializes the database and seeds the admin automatically. Check: docker compose ps
+8. Open http://localhost:3001
+9. Admin login email is ADMIN_EMAIL in .env; password is ADMIN_PASSWORD in .env.
+
+IMPORTANT
+- Keep .env private. Never upload it to GitHub or share passwords.
+- Do not run docker compose down -v unless you intentionally want to delete your database and uploads.
+- If you get PostgreSQL error 28P01 because an old Docker database volume has a different password, follow the safe password reset instructions in README.md. Do not delete the volume.
+- localhost works only on the computer running Docker. For NIE students to access the same site from anywhere, follow DEPLOY_RENDER.md.
+- Winner email notifications require valid SMTP settings. If SMTP is not configured, winners are still announced on the website but email is not sent.
+- Persistent cloud storage is required to keep uploaded pamphlets across cloud restarts/redeployments.
+
+LATEST UPDATE (DASHBOARD NAVIGATION / EMAIL UNIQUENESS / EVENT CONFIRMATION)
+- A My Dashboard button remains visible in the top navigation after login, on both the home and Explore Events pages.
+- Student email addresses are normalized to lowercase and the database enforces case-insensitive uniqueness.
+- Event registration now opens a review step showing the event, date, venue, fee and student email. The student must press Confirm registration to submit.
+- Event registration confirmation emails include the event date and venue. Delivery still requires valid SMTP_HOST, SMTP_USER and SMTP_PASS in .env; check spam/junk folders too.
+
+UPDATING AN EXISTING LOCAL INSTALLATION
+1. Back up your database first if it contains important registrations.
+2. Replace the old project files with this updated ZIP (keep your existing .env file; do not overwrite it with .env.example).
+3. From the folder containing docker-compose.yml run: docker compose up -d --build
+4. Apply the new case-insensitive email index without deleting data: docker compose exec app npm run db:init
+5. Check: docker compose ps
+6. Refresh the browser with Ctrl+F5.
+Do not run docker compose down -v; it deletes the database and uploaded pamphlets.

@@ -1,0 +1,10 @@
+node_modules/
+.env
+.DS_Store
+npm-debug.log
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Never commit deployment secrets
+.env.*
+!.env.example
