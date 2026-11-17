@@ -44,3 +44,111 @@
 
 /* Always-available dashboard shortcut for signed-in students and administrators. */
 .quick-dashboard{position:fixed;right:22px;bottom:22px;z-index:15;border:0;border-radius:999px;padding:14px 19px;background:linear-gradient(115deg,var(--purple),#957cf4);color:#fff;font-weight:800;box-shadow:0 12px 32px #7158e855;display:flex;align-items:center;gap:9px;cursor:pointer;transition:transform .2s,box-shadow .2s}.quick-dashboard:hover{transform:translateY(-3px);box-shadow:0 16px 36px #7158e866}.quick-dashboard.hidden{display:none!important}@media(max-width:600px){.quick-dashboard{right:14px;bottom:14px;padding:12px 15px;font-size:12px}}
+
+
+/* Fix EventHub top-3 winner dropdown layout */
+#winnerManager {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+#winnerManager > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.winner-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: 12px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 14px 0;
+  align-items: center;
+}
+
+.winner-row select,
+.winner-row input {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #e3e3ee;
+  border-radius: 9px;
+  background: #fcfcff;
+  color: #18213b;
+}
+
+.winner-row button {
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+@media (max-width: 750px) {
+  .winner-row {
+    grid-template-columns: 1fr;
+  }
+
+  .winner-row select,
+  .winner-row input,
+  .winner-row button {
+    width: 100%;
+  }
+}
+
+
+/* EventHub - NIE North Campus hero background */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(12, 20, 48, 0.88) 0%,
+      rgba(18, 27, 58, 0.70) 48%,
+      rgba(18, 27, 58, 0.30) 100%
+    ),
+    url("https://pub-3b97627348a0438ebaf068ed205962b1.r2.dev/gallery/01KNY0ND6MRJ0B1861W6GM7XWX.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  min-height: 540px;
+}
+
+.hero-copy,
+.hero-art {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-copy h1,
+.hero-copy p,
+.hero-copy .eyebrow,
+.hero-note {
+  color: white;
+}
+
+.hero-copy h1 span {
+  color: #b8c9ff;
+}
+
+.hero .orbit {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    background-position: center;
+    border-radius: 14px;
+  }
+
+  .hero-copy {
+    padding: 24px 16px;
+  }
+}
