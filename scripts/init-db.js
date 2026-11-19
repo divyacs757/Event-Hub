@@ -1,13 +1,23 @@
+
 require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const { Pool } = require("pg");
 
 async function main() {
+  const databaseUrl = process.env.DATABASE_URL;
+
+  if (!databaseUrl) {
+    throw new Error("DATABASE_URL is missing from the environment");
+  }
+
+  console.log("Database host:", new URL(databaseUrl).hostname);
+
   const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_SSL === "true" ? { rejectUnauthorized: false } : undefined
+    connectionString: databaseUrl,
+    ssl: { rejectUnauthorized: false }
   });
+
   try {
     const schemaPath = path.join(__dirname, "..", "db", "schema.sql");
     const sql = fs.readFileSync(schemaPath, "utf8");
@@ -20,4 +30,5 @@ async function main() {
     await pool.end();
   }
 }
+
 main();
